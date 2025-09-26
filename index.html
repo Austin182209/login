@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Page</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+
+    /* Background Video */
+    video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      background: transparent;
+    }
+
+    /* Login Box */
+    .login-container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(0.1px);
+      -webkit-backdrop-filter: blur(2px);
+      padding: 30px;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 350px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      color: #fff;
+    }
+
+    .login-box h2 { margin-bottom: 20px; color: #fff; }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+    }
+
+    .login-box input::placeholder { color: rgba(255,255,255,0.7); }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .login-box button:hover { background: #0056b3; }
+
+    @media (max-width: 480px) {
+      .login-box { padding: 20px; }
+      .login-box h2 { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video autoplay muted loop playsinline>
+    <source src="sai.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="login-container">
+    <div class="login-box">
+      <h2>Login</h2>
+
+      <input type="text" id="username" placeholder="Username" autocomplete="username" />
+      <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
+      <button id="loginBtn" type="button">Login</button>
+    </div>
+  </div>
+
+  <script>
+    const REDIRECT_URL = "https://www.youtube.com";
+
+    const usernameEl = document.getElementById("username");
+    const passwordEl = document.getElementById("password");
+    const loginBtn = document.getElementById("loginBtn");
+
+    // Load saved username if any
+    try {
+      const saved = localStorage.getItem("lastUser");
+      if (saved) usernameEl.value = saved;
+    } catch (e) {
+      // ignore
+    }
+
+    function login() {
+      const user = usernameEl.value.trim();
+      const pass = passwordEl.value.trim();
+
+      // Accept any non-empty username & password
+      if (!user || !pass) {
+        alert("please enter your username and password");
+        return;
+      }
+
+      // Save username for next time (optional)
+      try {
+        localStorage.setItem("lastUser", user);
+      } catch (e) { /* ignore */ }
+
+      // Redirect to target site
+      window.location.href = REDIRECT_URL;
+    }
+
+    loginBtn.addEventListener("click", login);
+
+    // Allow Enter to submit from inputs
+    [usernameEl, passwordEl].forEach(el => {
+      el.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") login();
+      });
+    });
+  </script>
+
+</body>
+</html>
